@@ -9,8 +9,8 @@ local M = {}
 ---@class avante.Config
 M.defaults = {
   debug = false,
-  ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | [string]
-  provider = "claude", -- Only recommend using Claude
+  ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | "ollama" | [string]
+  provider = "ollama", -- Only recommend using Claude
   ---@alias Tokenizer "tiktoken" | "hf"
   -- Used for counting tokens and encoding text.
   -- By default, we will use tiktoken.
@@ -22,7 +22,7 @@ M.defaults = {
   -- You can use `require('avante.config').override({system_prompt = "MY_SYSTEM_PROMPT"}) conditionally
   -- in your own autocmds to do it per directory, or that fit your needs.
   system_prompt = [[
-You are an excellent programming expert.
+You are an excellent programming expert, always focus on following the best practices and writing clean code.
 ]],
   ---@type AvanteSupportedProvider
   openai = {
@@ -79,6 +79,15 @@ You are an excellent programming expert.
     temperature = 0,
     max_tokens = 4096,
     ["local"] = false,
+  },
+  ---@type AvanteSupportedProvider
+  ollama = {
+    endpoint = "http://localhost:11434/api/generate",
+    model = "llama3.1",
+    timeout = 30000, -- Timeout in milliseconds
+    temperature = 0,
+    max_tokens = 4096,
+    ["local"] = true,
   },
   ---To add support for custom provider, follow the format below
   ---See https://github.com/yetone/avante.nvim/README.md#custom-providers for more details
